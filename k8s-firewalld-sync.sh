@@ -20,7 +20,6 @@ if ! systemctl is-active --quiet firewalld; then
     exit 1
 fi
 
-
 # Check Kubernetes API
 if ! kubectl cluster-info >/dev/null 2>&1; then
     echo "ERROR: Kubernetes API is not available."
@@ -29,13 +28,11 @@ fi
 
 echo "Kubernetes API is available."
 
-
 # Make sure enp0s8 belongs to kubernetes zone
 if ! firewall-cmd --zone="$ZONE" --query-interface=enp0s8 >/dev/null; then
     echo "Adding enp0s8 to $ZONE..."
     firewall-cmd --zone="$ZONE" --add-interface=enp0s8
 fi
-
 
 # Function: add source if missing
 add_source() {
@@ -58,7 +55,6 @@ add_source() {
 
     fi
 }
-
 
 # Static Kubernetes networks
 echo ""
@@ -99,7 +95,6 @@ while read -r IP; do
     fi
 
 done <<< "$SERVICE_IPS"
-
 
 # Detect EndpointSlice addresses
 echo ""
